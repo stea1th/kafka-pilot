@@ -12,7 +12,7 @@
     <artifactId>kafka-pilot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>kafka-pilot</name>
+    <name>kafka-pilot-server</name>
     <description>Kafka pilot project on Spring Boot</description>
 
     <properties>
