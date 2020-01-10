@@ -1,4 +1,4 @@
-package de.stea1th.kafka.pilot.server;
+package de.stea1th.kafka.pilot.server.config;
 
 import de.stea1th.kafka.pilot.server.dto.AbstractDto;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -27,6 +27,16 @@ public class KafkaConsumerConfig {
     private String kafkaGroupId;
 
     @Bean
+    public KafkaListenerContainerFactory<?> singleFactory() {
+        ConcurrentKafkaListenerContainerFactory<Long, AbstractDto> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
+        factory.setBatchListener(false);
+        factory.setMessageConverter(converter());
+        return factory;
+    }
+
+    @Bean
     public KafkaListenerContainerFactory<?> batchFactory() {
         ConcurrentKafkaListenerContainerFactory<Long, AbstractDto> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
@@ -50,6 +60,11 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaGroupId);
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
         return props;
+    }
+
+    @Bean
+    public KafkaListenerContainerFactory<?> kafkaListenerContainerFactory() {
+        return new ConcurrentKafkaListenerContainerFactory<>();
     }
 
     @Bean
