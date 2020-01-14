@@ -6,5 +6,5 @@ public interface PizzaService {
 
     void send(PizzaDto pizzaDto);
 
-    void consume(PizzaDto pizzaDto);
+    void consume(String message);
 }
