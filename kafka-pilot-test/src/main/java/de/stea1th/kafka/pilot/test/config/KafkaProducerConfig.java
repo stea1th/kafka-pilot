@@ -18,7 +18,7 @@ import java.util.Map;
 @Configuration
 public class KafkaProducerConfig {
 
-    @Value("${kafka.server}")
+    @Value("${spring.kafka.bootstrap-servers}")
     private String kafkaServer;
 
     @Value("${kafka.producer.id}")
@@ -35,13 +35,13 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public ProducerFactory<Long, PizzaDto> producerStarshipFactory() {
+    public ProducerFactory<Long, PizzaDto> producerPizzaFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
     @Bean
     public KafkaTemplate<Long, PizzaDto> kafkaTemplate() {
-        KafkaTemplate<Long, PizzaDto> template = new KafkaTemplate<>(producerStarshipFactory());
+        KafkaTemplate<Long, PizzaDto> template = new KafkaTemplate<>(producerPizzaFactory());
         template.setMessageConverter(new StringJsonMessageConverter());
         return template;
     }
