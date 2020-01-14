@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.stea1th.kafka.pilot.server.dto.PizzaDto;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -12,14 +13,23 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class PizzaServiceImpl implements PizzaService {
 
+
     private final KafkaTemplate<Long, PizzaDto> kafkaPizzaTemplate;
 
     private final ObjectMapper objectMapper;
 
+    @Autowired
     public PizzaServiceImpl(KafkaTemplate<Long, PizzaDto> kafkaPizzaTemplate, ObjectMapper objectMapper) {
         this.kafkaPizzaTemplate = kafkaPizzaTemplate;
         this.objectMapper = objectMapper;
     }
+
+
+//    @Autowired
+//    public PizzaServiceImpl(KafkaTemplate<Long, PizzaDto> kafkaPizzaTemplate, ObjectMapper objectMapper) {
+//        this.kafkaPizzaTemplate = kafkaPizzaTemplate;
+//        this.objectMapper = objectMapper;
+//    }
 
 
     @Override
@@ -29,7 +39,7 @@ public class PizzaServiceImpl implements PizzaService {
     }
 
     @Override
-    @KafkaListener(id = "Pizza", topics = {"server.pizza"}, containerFactory = "singleFactory")
+    @KafkaListener(id = "group_id", topics = {"server.pizza"})
     public void consume(PizzaDto pizzaDto) {
         log.info("=> consumed {}", writeValueAsString(pizzaDto));
     }
